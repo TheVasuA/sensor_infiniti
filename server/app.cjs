@@ -17,6 +17,16 @@ const db = mysql.createPool({
     queueLimit: 0
 });
 
+// const db = mysql.createPool({
+//   host: "localhost",
+//   user: "chartap_infiniti",
+//   password: "p@rv2thiV",
+//   database: "chartap_infiniti",
+//     waitForConnections: true,
+//     connectionLimit: 10,
+//     queueLimit: 0
+// });
+
 // Function to handle reconnections
 async function handleDisconnect() {
   try {
@@ -32,7 +42,7 @@ async function handleDisconnect() {
 // Initialize the connection
 handleDisconnect();
 
-app.get('/api/:id', async(req, res) => {
+app.get('/data/api/:id', async(req, res) => {
   const ID = req.params.id;
   try {
     const connection = await db.getConnection();
@@ -51,7 +61,7 @@ app.get('/api/:id', async(req, res) => {
 
 
 
-app.post("/api", async(req, res) => {
+app.post("/data/api", async(req, res) => {
     let user = {
       COMPANY: req.body.COMPANY,
       ID: req.body.ID,
@@ -75,7 +85,7 @@ try {
 }
 })
 
-app.post('/button/', async(req, res) => {
+app.post('/data/button/', async(req, res) => {
   let idB  = {buttonID:req.body.id};
  try {
     const connection = await db.getConnection();
@@ -89,7 +99,7 @@ app.post('/button/', async(req, res) => {
   }
   });
 
-  app.get('/button', async(req, res) => {
+  app.get('/data/button', async(req, res) => {
     try {
       const connection = await db.getConnection();
       const [rows] = await connection.query(  'SELECT DISTINCT id, buttonID FROM sensor_button GROUP BY id, buttonID');

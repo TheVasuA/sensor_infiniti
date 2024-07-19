@@ -7,17 +7,19 @@ const ENDPOINT = 'https://chartap.com/data';
 const FetchData = ({ sensorId }) => {
 
     const [data, setData] = useState([]);
+    const [error, setError] = useState('');
   
 
   const fetchData = async (sensorId) => {
     try {
       const response = await axios.get(`${ENDPOINT}/api/${sensorId}`);
       setData(response.data);
-      console.log(response);
-      console.log(response.data);
-      console.log(response.data.data);
+      setError('')
+
     } catch (error) {
-      console.error('Error fetching data:', error);
+ 
+      setError(error.response.data);
+      setData([])
     }
   };
 
@@ -30,10 +32,11 @@ const FetchData = ({ sensorId }) => {
   }, [sensorId]);
 
 
- const companyName= data?.[0]?.COMPANY || "New Company Not Found"
+ const companyName= data?.[0]?.COMPANY || "Not Found"
   return (
     <div>      
-    <h1 className='companyName'>{`Data of ${companyName}`}</h1>
+    <h1 className='companyName'>{`Data  ${companyName}`}</h1>
+
 
     <div className="overflow-x-auto px-8">
       <table className="min-w-full bg-white border border-gray-200 ">
@@ -50,7 +53,9 @@ const FetchData = ({ sensorId }) => {
             <th className="py-2 px-4 border-b">Motor Status</th>
           </tr>
         </thead>
-        <tbody>
+        {
+          !error?
+       (<tbody>
           {data.slice(0, 10).map((sensor, index) => (
             <tr key={index}>
               <td className="py-2 px-4 border-b">{new Date(sensor.timestamp).toLocaleDateString()}</td>
@@ -64,7 +69,11 @@ const FetchData = ({ sensorId }) => {
               <td className="py-2 px-4 border-b">{sensor.motor}</td>
             </tr>
           ))}
-        </tbody>
+        </tbody>)
+        :
+        <h3 className="py-2 px-4 border-b text-center">Data Not Available</h3>
+       }
+       
       </table>
     </div>
 

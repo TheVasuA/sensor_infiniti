@@ -9,9 +9,9 @@ app.use(bodyParser.json());
 
 const db = mysql.createConnection({
     host: "localhost",
-    user: "root",
-    password: "",
-    database: "infiniti",
+    user: "chartap_infiniti",
+    password: "p@rv2thiV",
+    database: "chartap_infiniti",
 });
 
 db.connect(err => {
@@ -22,7 +22,7 @@ db.connect(err => {
   console.log('Connected to MySQL');
 });
 
-app.get('/api/:id', (req, res) => {
+app.get('/data/api/:id', (req, res) => {
   const ID = req.params.id;
   db.query('SELECT * FROM sensor_data WHERE ID = ? ORDER BY timestamp DESC LIMIT 10', [ID], (err, results) => {
     if (err) {
@@ -35,7 +35,7 @@ app.get('/api/:id', (req, res) => {
 });
 
 
-app.post("/api", (req, res) => {
+app.post("/data/api", (req, res) => {
     let user = {
       COMPANY: req.body.COMPANY,
       ID: req.body.ID,
@@ -56,7 +56,7 @@ app.post("/api", (req, res) => {
     });
   });
 
-app.post('/button/', (req, res) => {
+app.post('/data/button/', (req, res) => {
 let idB  = {buttonID:req.body.id};
 let sql = "INSERT INTO sensor_button SET ?";
     let query = db.query(sql, idB, (err, result) => {
@@ -67,7 +67,7 @@ let sql = "INSERT INTO sensor_button SET ?";
     });
   });
   
-  app.get('/button', (req, res) => {
+  app.get('/data/button', (req, res) => {
     db.query('SELECT DISTINCT id, buttonID FROM sensor_button GROUP BY id, buttonID', (err, results) => {
       if (err) {
         console.error('Error fetching data:', err);
@@ -77,5 +77,5 @@ let sql = "INSERT INTO sensor_button SET ?";
       res.json(results);
     });
   });
-const PORT =4000;
+const PORT =3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
