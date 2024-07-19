@@ -1,8 +1,8 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios';
 
-const ENDPOINT = 'http://localhost:4000';
-// const ENDPOINT = 'https://chartap.com';
+// const ENDPOINT = 'http://localhost:4000';
+const ENDPOINT = 'https://chartap.com/data';
 
 const FetchData = ({ sensorId }) => {
 
@@ -13,6 +13,9 @@ const FetchData = ({ sensorId }) => {
     try {
       const response = await axios.get(`${ENDPOINT}/api/${sensorId}`);
       setData(response.data);
+      console.log(response);
+      console.log(response.data);
+      console.log(response.data.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }

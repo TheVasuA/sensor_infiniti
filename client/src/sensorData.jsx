@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import FetchData from './fetchData';
 
-const ENDPOINT = 'http://localhost:4000';
-// const ENDPOINT = 'https://chartap.com';
+// const ENDPOINT = 'http://localhost:4000';
+const ENDPOINT = 'https://chartap.com/data';
 
 const SensorData = () => {
  
